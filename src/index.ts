@@ -55,7 +55,7 @@ async function main() {
             clobClient = await getClobClient();
         } catch (error) {
             logger.error("Failed to initialize ClobClient", error);
-            logger.warning("Continuing without ClobClient - orders may fail");
+            logger.warn("Continuing without ClobClient - orders may fail");
         }
     }
 
@@ -75,7 +75,7 @@ async function main() {
         } catch (error) {
             const msg = error instanceof Error ? error.message : String(error);
             logger.error(msg);
-            logger.warning("Continuing without allowances - orders may fail");
+            logger.warn("Continuing without allowances - orders may fail");
         }
     }
 
@@ -87,7 +87,7 @@ async function main() {
             logger.success("Order builder initialized");
         } catch (error) {
             logger.error("Failed to initialize order builder", error);
-            logger.warning("Continuing without order execution - trades will only be logged");
+            logger.warn("Continuing without order execution - trades will only be logged");
         }
     }
 
@@ -111,7 +111,7 @@ async function main() {
                 const entries = [...processedTxHashes];
                 entries.splice(0, 500).forEach(k => processedTxHashes.delete(k));
             }
-            logger.warning(
+            logger.warn(
                 `🎯 Trade detected! ` +
                 `Side: ${payload.side}, ` +
                 `Price: ${payload.price}, ` +
@@ -154,7 +154,7 @@ async function main() {
             } else if (enableCopyTrading && isCopyTradingPaused) {
                 logger.info("⏸️  Copy trading is paused during redemption - trade not copied");
             } else if (enableCopyTrading) {
-                logger.warning("Order builder not available - trade not copied");
+                logger.warn("Order builder not available - trade not copied");
             }
         }
     };
@@ -216,7 +216,7 @@ async function main() {
                 }
                 
                 if (redemptionResult.failed > 0) {
-                    logger.warning(`⚠️  ${redemptionResult.failed} market(s) failed to redeem`);
+                    logger.warn(`⚠️  ${redemptionResult.failed} market(s) failed to redeem`);
                 }
                 
                 logger.info("=".repeat(60));

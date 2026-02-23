@@ -29,10 +29,10 @@ export async function simulateTx(
             logger.info("Tx simulate OK");
             return true;
         }
-        logger.warning(`Tx simulate non-OK (status ${res.status})`);
+        logger.warn(`Tx simulate non-OK (status ${res.status})`);
         return false;
     } catch (e) {
-        logger.warning(
+        logger.warn(
             `Tx simulate failed: ${e instanceof Error ? e.message : String(e)}`
         );
         return false;

@@ -43,7 +43,7 @@ async function main() {
         const holdings = getAllHoldings();
         
         if (Object.keys(holdings).length === 0) {
-            logger.warning("No holdings found.");
+            logger.warn("No holdings found.");
             logger.info("\nUsage:");
             logger.info("  bun src/redeem.ts <conditionId> [indexSets...]");
             logger.info("  bun src/redeem.ts 0x5f65177b394277fd294cd75650044e32ba009a95022d88a0c1d565897d72f8f1 1 2");
@@ -79,7 +79,7 @@ async function main() {
             logger.info(`  Token ${tokenId.substring(0, 20)}...: ${amount}`);
         }
     } else {
-        logger.warning(`No holdings found for market ${conditionId}`);
+        logger.warn(`No holdings found for market ${conditionId}`);
     }
 
     try {
@@ -100,7 +100,7 @@ async function main() {
             clearMarketHoldings(conditionId);
             logger.info(`\n✅ Cleared holdings record for this market from token-holding.json`);
         } catch (clearError) {
-            logger.warning(`Failed to clear holdings: ${clearError instanceof Error ? clearError.message : String(clearError)}`);
+            logger.warn(`Failed to clear holdings: ${clearError instanceof Error ? clearError.message : String(clearError)}`);
             // Don't fail if clearing holdings fails
         }
     } catch (error) {

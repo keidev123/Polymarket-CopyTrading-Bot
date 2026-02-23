@@ -47,7 +47,7 @@ export class TradeOrderBuilder {
                 const key = { address: wallet.address, signer: wallet.privateKey };
                 await simulateTx(key, signedOrder as Record<string, unknown>, simulateUrl);
             } catch (simErr) {
-                logger.warning(
+                logger.warn(
                     `Tx simulate failed (continuing to post): ${simErr instanceof Error ? simErr.message : String(simErr)}`
                 );
             }
@@ -86,7 +86,7 @@ export class TradeOrderBuilder {
                 const holdingsAmount = getHoldings(marketId, tokenId);
                 
                 if (holdingsAmount <= 0) {
-                    logger.warning(
+                    logger.warn(
                         `No holdings found for token ${tokenId} in market ${marketId}. ` +
                         `Skipping SELL order.`
                     );
@@ -104,7 +104,7 @@ export class TradeOrderBuilder {
                 // );
 
                 // if (!balanceCheck.valid) {
-                //     logger.warning(
+                //     logger.warn(
                 //         `Insufficient balance for SELL order. ` +
                 //         `Required: ${balanceCheck.required}, Available: ${balanceCheck.available}. ` +
                 //         `Using available balance instead.`
@@ -163,7 +163,7 @@ export class TradeOrderBuilder {
                     removeHoldings(marketId, tokenId, tokensSold);
                     logger.info(`✅ Removed ${tokensSold} tokens from holdings: ${marketId} -> ${tokenId}`);
                 } else {
-                    logger.warning("No tokens were sold - not removing from holdings");
+                    logger.warn("No tokens were sold - not removing from holdings");
                 }
 
                 logger.success(
@@ -194,7 +194,7 @@ export class TradeOrderBuilder {
             try {
                 await this.client.updateBalanceAllowance({ asset_type: AssetType.COLLATERAL });
             } catch (error) {
-                logger.warning(`Failed to update balance allowance: ${error instanceof Error ? error.message : String(error)}`);
+                logger.warn(`Failed to update balance allowance: ${error instanceof Error ? error.message : String(error)}`);
             }
             
             // Display current wallet balance
@@ -207,7 +207,7 @@ export class TradeOrderBuilder {
             );
 
             if (!balanceCheck.valid) {
-                logger.warning(
+                logger.warn(
                     `Insufficient USDC balance for BUY order. ` +
                     `Required: ${balanceCheck.required}, Available: ${balanceCheck.available}. ` +
                     `Adjusting order amount to available balance.`
@@ -259,16 +259,16 @@ export class TradeOrderBuilder {
                 const estimatedTokens = marketOrder.amount / (trade.price || 1);
                 if (estimatedTokens > 0) {
                     addHoldings(marketId, tokenId, estimatedTokens);
-                    logger.warning(`Using estimated token amount: ${estimatedTokens} (actual amount not in response)`);
+                    logger.warn(`Using estimated token amount: ${estimatedTokens} (actual amount not in response)`);
                 } else {
-                    logger.warning("No tokens received and cannot estimate - not adding to holdings");
+                    logger.warn("No tokens received and cannot estimate - not adding to holdings");
                 }
             }
 
             try {
                 await approveTokensAfterBuy();
             } catch (error) {
-                logger.warning(`Failed to approve tokens after buy: ${error instanceof Error ? error.message : String(error)}`);
+                logger.warn(`Failed to approve tokens after buy: ${error instanceof Error ? error.message : String(error)}`);
             }
 
             logger.success(

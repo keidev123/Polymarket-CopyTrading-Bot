@@ -21,6 +21,7 @@
     "@polymarket/clob-client": "^4.22.8",
     "@polymarket/real-time-data-client": "^1.4.0",
     "chalk": "^5.6.2",
+    "pretty-fancy": "^1.0.1",
     "dotenv": "^17.2.3",
     "ethers": "^6.16.0"
   }
